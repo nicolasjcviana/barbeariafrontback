@@ -1,0 +1,85 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-breadcrumb [model]="itemsBreadcrumb"></p-breadcrumb>
+  </div>
+  <div class="ui-g-10 ui-g-offset-1">
+    <div class="ui-g-12">
+      <h3>Listagem de atendimentos</h3>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <p-card title="(-) Despesas" subtitle="{{valores.despesas | currency:'BRL':'symbol':'1.2-2'}}" styleClass="barb-card-despesas">
+      </p-card>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <p-card title="(+) Receitas" subtitle="{{valores.receitas | currency:'BRL':'symbol':'1.2-2'}}" styleClass="barb-card-receitas">
+      </p-card>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <p-card title="(=) Saldo" subtitle="{{valores.saldo | currency:'BRL':'symbol':'1.2-2'}}" styleClass="barb-card-saldo">
+      </p-card>
+    </div>
+    <div class="ui-g-12">
+      <a routerLink="/atendimento/new">
+        <button pButton type="button" style="width: 120px;" class="pull-right" label="Novo"></button>
+      </a>
+    </div>
+    <div class="ui-g-12">
+      <p-table [value]="atendimentos" dataKey="cliente.cdCliente" [paginator]="true" [rows]="10" [autoLayout]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 2.25em"></th>
+            <th>
+              Cliente
+            </th>
+            <th>
+              Total dos atendimentos
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-atendimentoCliente let-expanded="expanded" let-columns="columns">
+          <tr style="height: 60px;" [ngClass]="expanded ? 'barb-back-cinza' : ''">
+            <td>
+              <a [pRowToggler]="atendimentoCliente">
+                <i [ngClass]="expanded ? 'fa fa-chevron-down' : 'fa fa-chevron-right'" class="barb-mouse-click" style="font-size: 1.25em"></i>
+              </a>
+            </td>
+            <td>
+              {{atendimentoCliente.cliente.nmCliente}}
+            </td>
+            <td>
+              {{atendimentoCliente.valorTotal | currency:'BRL':'symbol':'1.2-2'}}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-atendimentoCliente let-columns="columns">
+          <tr>
+            <td [attr.colspan]="3">
+              <h4>Atendimentos do cliente</h4>
+              <div class="ui-g-12">
+              <p-table [value]="atendimentoCliente.atendimentos" [paginator]="true" [rows]="10" [autoLayout]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Data</th>
+                    <th>Valor</th>
+                    <th>Funcionário</th>
+                    <th>Serviços</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-atendimento>
+                  <tr>
+                    <td>{{atendimento.dtAtendimento | date:'dd/MM/yyyy'}}</td>
+                    <td>{{atendimento.vlTotal | currency:'BRL':'symbol':'1.2-2'}}</td>
+                    <td>{{atendimento.cdFuncionario.nmFuncionario}}</td>
+                    <td>{{getDescricaoItensAtendimento(atendimento.itensAtendimento)}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+

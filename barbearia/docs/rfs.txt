@@ -1,0 +1,8 @@
+RF01 - O sistema deverá permitir o cadastro de funcionários.
+RF02 - O sistema deverá permitir o cadastro de clientes.
+RF03 - O sistema deverá permitir o cadastro de serviços prestados pela barbearia.
+RF04 - O sistema deverá permitir ao atendente, cadastrar um atendimento para o cliente, 
+	   informando qual foi o funcionário que realizou o atendimento, bem como os serviços prestados.
+RF05 - O sistema deverá mostrar um somatório do total receitas em atendimentos na barbearia.
+RF06 - O sistema deverá mostrar um somatório do total de despesas em atendimento gasto com funcionários.
+RF07 - O sistema deverá mostrar um somatório do saldo de receitas - despesas.

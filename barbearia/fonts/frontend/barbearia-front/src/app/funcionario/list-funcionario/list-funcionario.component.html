@@ -1,0 +1,61 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-breadcrumb [model]="itemsBreadcrumb"></p-breadcrumb>
+  </div>
+  <div class="ui-g-10 ui-g-offset-1">
+    <div class="ui-g-12">
+      <h3>Listagem de funcionários</h3>
+    </div>
+    <div class="ui-g-12">
+      <a routerLink="/funcionario/new">
+        <button pButton type="button" style="width: 120px;" class="pull-right" label="Novo"></button>
+      </a>
+    </div>
+    <div class="ui-g-12">
+      <p-table #dt [value]="funcionarios" [paginator]="true" [rows]="10" [autoLayout]="true"
+      sortMode="multiple" [globalFilterFields]="['nmFuncionario','dsEmail', 'nrTelefone', 'dtNascimento', 'dsEndereco']">
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="Filtrar" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        </div>
+    </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th>Ações</th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input *ngSwitchCase="'nmFuncionario'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'dsEmail'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'nrTelefone'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'dtNascimento'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input *ngSwitchCase="'dsEndereco'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+            </th>
+            <th> </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-func>
+          <tr>
+            <td>{{func.nmFuncionario}}</td>
+            <td>{{func.dsEmail}}</td>
+            <td>{{func.nrTelefone}}</td>
+            <td>{{func.dtNascimento | date:'dd/MM/yyyy'}}</td>
+            <td>{{func.dsEndereco}}</td>
+            <td>
+              <a [routerLink]="['/funcionario', func.cdFuncionario]">
+                <button pButton icon="fa-edit" class="ui-button-warning" (click)="editar(func)" style="margin-right: 10px;"></button>
+              </a>
+              <button pButton icon="fa-trash" class="ui-button-danger" (click)="excluir(func)" type="text"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Confirmar remoção" [responsive]="true" icon="fa fa-question-circle" width="425"></p-confirmDialog>

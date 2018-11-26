@@ -1,0 +1,48 @@
+body {
+  margin: 0px;
+  padding-top: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #404C51;
+}
+
+.barb-navbar {
+  top : 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+
+}
+
+.barb-sidebar {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.barb-panelmenu {
+  margin-top: 30px;
+  left: 0;
+  right: 0;
+}
+
+.barb-card-despesas {
+  background-color: #CC0E1A;
+  color : white;
+}
+
+.barb-card-saldo {
+  background-color: #092459;
+  color : white;
+}
+
+.barb-card-receitas {
+  background-color: #079116;
+  color : white;
+}
+
+.barb-mouse-click:hover {
+  cursor: pointer;
+}
+
+.barb-back-cinza {
+  background: grey;
+}

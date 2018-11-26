@@ -1,0 +1,75 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <p-breadcrumb [model]="itemsBreadcrumb"></p-breadcrumb>
+  </div>
+  <div class="ui-g-10 ui-g-offset-1">
+    <form [formGroup]="formCliente" (ngSubmit)="salvar()">
+      <div class="ui-g-12">
+        <h3>Novo cliente</h3>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> Nome</label>
+        </div>
+        <div class="ui-g-12">
+          <input type="text" pInputText formControlName="nmCliente" placeholder="Nome">
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> E-mail</label>
+        </div>
+        <div class="ui-g-12">
+          <input type="text" pInputText formControlName="dsEmail" placeholder="E-mail">
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> Telefone</label>
+        </div>
+        <div class="ui-g-12">
+          <p-inputMask formControlName="nrTelefone" mask="(99) 99999?-9999" placeholder="Telefone"></p-inputMask>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> Data de nascimento</label>
+        </div>
+        <div class="ui-g-12">
+          <p-inputMask formControlName="dtNascimento"  mask="99/99/9999" placeholder="Data de nascimento"></p-inputMask>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> Endereço</label>
+        </div>
+        <div class="ui-g-12">
+          <input type="text" pInputText formControlName="dsEndereco" placeholder="Endereço">
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label>Observações</label>
+        </div>
+        <div class="ui-g-12">
+          <textarea [rows]="5" [cols]="30" pInputTextarea formControlName="dsObservacao" autoResize="autoResize"></textarea>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-2">
+          <a routerLink="/cliente">
+            <button pButton type="button" class="ui-button-secondary" label="Cancelar"></button>
+          </a>
+        </div>
+        <div class="ui-g-2">
+          <button pButton type="submit" [disabled]="!formCliente.valid" label="Salvar"></button>
+        </div>
+      </div>
+
+      <!-- <div class="ui-g-6">
+        <p-calendar formControlName="dataNascimento" dateFormat="dd/mm/yy" [locale]="datePt.getLocale()"
+        [showButtonBar]="true"></p-calendar>
+      </div> -->
+    </form>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <p-breadcrumb [model]="itemsBreadcrumb"></p-breadcrumb>
+  </div>
+  <div class="ui-g-10 ui-g-offset-1">
+    <form [formGroup]="formServico" (ngSubmit)="salvar()">
+      <div class="ui-g-12">
+        <h3>Novo serviço</h3>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> Descrição</label>
+        </div>
+        <div class="ui-g-12">
+          <input type="text" pInputText formControlName="dsServico" placeholder="Descrição">
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-6">
+        <div class="ui-g-12">
+          <label><span style="color: red">*</span> Valor</label>
+        </div>
+        <div class="ui-g-12">
+          <input type="text" pInputText currencyMask formControlName="vlServico" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" placeholder="Valor">
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-2">
+          <a routerLink="/servico">
+            <button pButton type="button" class="ui-button-secondary" label="Cancelar"></button>
+          </a>
+        </div>
+        <div class="ui-g-2">
+          <button pButton type="submit" [disabled]="!formServico.valid" label="Salvar"></button>
+        </div>
+      </div>
+
+      <!-- <div class="ui-g-6">
+        <p-calendar formControlName="dataNascimento" dateFormat="dd/mm/yy" [locale]="datePt.getLocale()"
+        [showButtonBar]="true"></p-calendar>
+      </div> -->
+    </form>
+  </div>
+</div>

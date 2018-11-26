@@ -1,0 +1,9 @@
+<div *ngIf="isLogado">
+<p-menubar [model]="items" styleClass="barb-navbar">
+  <button pButton label="Sair" icon="fa-sign-out" (click)="logout()"></button>
+</p-menubar>
+<p-sidebar [(visible)]="display" syleClass="barb-sidebar">
+  <p-panelMenu [model]="itemsMenu" [multiple]="false" styleClass="barb-panelmenu"></p-panelMenu>
+</p-sidebar>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,2 @@
+Na tela de listagem, colocar o botão Novo acima do filtro. Dessa forma parece que é para adicionar novo filtro, mas na verdade é adição de novo registro.
+De restante está ótimo!

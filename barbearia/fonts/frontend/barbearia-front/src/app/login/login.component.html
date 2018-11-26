@@ -1,0 +1,61 @@
+<form [formGroup]="formLogin" autocomplete="off" (ngSubmit)="realizarLogin(formLogin.value)">
+<p-growl [(value)]="msgs" [life]="6000" ></p-growl>
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-6 ui-lg-4 ui-md-offset-3 ui-lg-offset-4">
+      <div class="ui-g-6 ui-g-offset-4">
+        <h3>Barbearia's</h3>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formLogin.controls['usuario'].valid && formLogin.controls['usuario'].dirty">
+          <i class="fa fa-close"></i>
+          Digite o seu usuário
+        </div>
+        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formLogin.controls['senha'].valid && formLogin.controls['senha'].dirty">
+          <i class="fa fa-close"></i>
+          Digite a sua senha
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <label><span style="color: red">*</span> Usuário</label>
+      </div>
+      <div class="ui-g-12 ui-fluid">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+          <input type="text" pInputText formControlName="usuario" placeholder="Usuário">
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <label><span style="color: red">*</span> Senha</label>
+      </div>
+      <div class="ui-g-12 ui-fluid">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+          <input type="password" pPassword formControlName="senha" [feedback]="false" placeholder="Senha">
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <p-checkbox value="conectado" formControlName="conectado" label="Manter-me conectado"></p-checkbox>
+      </div>
+      <div class="ui-g-12">
+        <button pButton type="submit" [disabled]="!formLogin.valid" label="Entrar"></button>
+      </div>
+      <div class="ui-g-12">
+        <button pButton type="button" (click)="toggleEsqueciSenha()" label="Esqueci minha senha" class="ui-button-secondary"></button>
+      </div>
+    </div>
+  </div>
+</form>
+<p-dialog header="Esqueci minha senha" [(visible)]="mostrarEsqueciSenha" modal="modal" [width]="500">
+  <div class="ui-g-12">
+    <label>Digite seu e-mail para a recuperação de sua senha:</label>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+    <div class="ui-inputgroup">
+      <span class="ui-inputgroup-addon"><i class="fa fa-at"></i></span>
+      <input type="text" pInputText placeholder="E-mail">
+    </div>
+  </div>
+  <div class="ui-g-12" style="margin-right: 20px">
+    <button pButton type="button" label="Enviar"></button>
+  </div>
+</p-dialog>
