@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UtilsService } from './../commons/utils.service';
 import { AppConfigs } from './../commons/app-configs';
-import { Funcionario } from './funcionario';
 import { Injectable } from '@angular/core';
+import { Md5 } from 'ts-md5';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,34 @@ export class FuncionarioService {
     private utils : UtilsService) { }
 
     save(funcionario : any) {
-      const headers = this.utils.getDefaultHeader();
-      let func = JSON.stringify(funcionario);
+
+      var key = CryptoJS.enc.Utf8.parse('7061737323313233');
+      var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+      var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(funcionario.nmFuncionario + funcionario.dsEmail), key,
+          {
+              keySize: 128 / 8,
+              iv: iv,
+              mode: CryptoJS.mode.CBC,
+              padding: CryptoJS.pad.Pkcs7
+          });
+
+      var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+          keySize: 128 / 8,
+          iv: iv,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+      });
+
+      console.log('Encrypted :' + encrypted);
+      console.log('Key :' + encrypted.key);
+      console.log('Salt :' + encrypted.salt);
+      console.log('iv :' + encrypted.iv);
+      console.log('Decrypted : ' + decrypted);
+      console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+
+      let headers = this.utils.getDefaultHeader();
+      headers = headers.append('Hash', `${encrypted}`);      
+      let func = JSON.stringify(funcionario);      
       if (funcionario.cdFuncionario) {
         return this.http.put(this.getUrlComId(funcionario.cdFuncionario), func, {headers}).toPromise();
       } else {

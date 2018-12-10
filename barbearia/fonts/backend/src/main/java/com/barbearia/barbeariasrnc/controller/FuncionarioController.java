@@ -1,20 +1,20 @@
 package com.barbearia.barbeariasrnc.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import com.barbearia.barbeariasrnc.security.AES;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.barbearia.barbeariasrnc.model.Funcionario;
 import com.barbearia.barbeariasrnc.service.FuncionarioService;
@@ -28,10 +28,14 @@ public class FuncionarioController {
 	
 	/* Para salvar um funcionário */
 	@PostMapping("/funcionarios")
-	public Funcionario createFuncionario(@Valid @RequestBody Funcionario funcionario) {
+	public Funcionario createFuncionario(@Valid @RequestBody Funcionario funcionario, @RequestHeader("Hash") String hash){
+
+		if(! (funcionario.getNmFuncionario() + funcionario.getDsEmail()).equals(AES.decrypt(hash))){
+			throw new RuntimeException("Erro ao validar o hash da requisição");
+		}
 		return funcionarioService.save(funcionario);
 	}
-	
+
 	/* Buscar todos os funcionários */
 	@GetMapping("/funcionarios")
 	public List<Funcionario> getAllFuncionarios() {
