@@ -4,6 +4,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
+/// <reference types="crypto-js" />
+
+import * as CryptoJS from 'crypto-js';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,4 +38,13 @@ export class UtilsService {
       }
     });
   }
+
+  decrypt (encrypted) {
+    return atob(encrypted);
+  }
+
+  encrypt (msg, pass) {
+   return CryptoJS.AES.encrypt(msg, pass);
+}
+
 }

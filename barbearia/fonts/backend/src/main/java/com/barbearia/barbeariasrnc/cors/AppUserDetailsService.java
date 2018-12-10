@@ -1,9 +1,15 @@
 package com.barbearia.barbeariasrnc.cors;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +23,8 @@ import org.springframework.web.filter.CorsFilter;
 
 import com.barbearia.barbeariasrnc.model.Funcionario;
 import com.barbearia.barbeariasrnc.repository.FuncionarioRepository;
+import com.barbearia.barbeariasrnc.security.Encriptador;
+import com.barbearia.barbeariasrnc.security.GeradorChaves;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
@@ -29,7 +37,13 @@ public class AppUserDetailsService implements UserDetailsService {
 		Optional<Funcionario> usuarioOptional = repository.findByNmUsuario(email);
 		Funcionario usuario = usuarioOptional
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário e/ou senha incorretos!"));
-		return new User(usuario.getNmFuncionario(), usuario.getDsSenha(), getPermissoes(usuario));
+		try {
+			String senha = Encriptador.encripta(usuario.getDsSenha(), GeradorChaves.getInstance().getChavePrivada());
+			return new User(usuario.getNmFuncionario(), senha, getPermissoes(usuario));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private Collection<? extends GrantedAuthority> getPermissoes(Funcionario usuario) {

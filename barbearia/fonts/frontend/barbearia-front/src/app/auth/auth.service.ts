@@ -20,25 +20,34 @@ export class AuthService {
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
 
-    const body = `username=${usuario}&password=${senha}&grant_type=password`;
+    return this.http.post(this.getUrlChave(), {})
+        .toPromise()
+        .then(response => {
+          debugger;
+          let resp = response.json();
+          let chave = this.utils.decrypt(resp.chave);
+          senha = this.utils.encrypt(senha, chave).toString();
+          const body = `username=${usuario}&password=${senha}&grant_type=password`;
+          return this.http.post(this.getUrl(), body, { headers })
+            .toPromise()
+            .then(response => {
+              this.armazenarToken(response.json().access_token);
+            })
+            .catch(response => {
+              if (response.status === 400) {
+                const responseJson = response.json();
 
-    return this.http.post(this.getUrl(), body, { headers })
-      .toPromise()
-      .then(response => {
-        this.armazenarToken(response.json().access_token);
-      })
-      .catch(response => {
-        if (response.status === 400) {
-          const responseJson = response.json();
+                if (responseJson.error === 'invalid_grant') {
+                  return Promise.reject('Usuário ou senha inválida!');
+                }
+              }
 
-          if (responseJson.error === 'invalid_grant') {
-            return Promise.reject('Usuário ou senha inválida!');
-          }
-        }
+              return Promise.reject(response);
+            });
 
-        return Promise.reject(response);
-      });
-  }
+        });
+
+    }
 
 
   private armazenarToken(token : string) {
@@ -99,6 +108,10 @@ export class AuthService {
 
   getUrl() {
     return  "http://localhost:8080/oauth/token";
+  }
+
+ getUrlChave() {
+    return  "http://localhost:8080/tokens/chavePublica";
   }
 
    getUrlLogout() {
